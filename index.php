@@ -268,6 +268,21 @@ $posts = [
                         <img src="img/<?=$value['content'] ?>" alt="Фото от пользователя" width="360" height="240">
                     </div>
 
+                <?php elseif($value['type'] == 'post-video'): ?>
+
+                <div class="post-video__block">
+                    <div class="post-video__preview">
+                        <?=embed_youtube_cover($value['content']); ?>
+                        <img src="img/coast-medium.jpg" alt="Превью к видео" width="360" height="188">
+                    </div>
+                    <a href="post-details.html" class="post-video__play-big button">
+                        <svg class="post-video__play-big-icon" width="14" height="14">
+                            <use xlink:href="#icon-video-play-big"></use>
+                        </svg>
+                        <span class="visually-hidden">Запустить проигрыватель</span>
+                    </a>
+                </div>
+
                 <?php else: ?>
                 <div class="post-link__wrapper">
                     <a class="post-link__external" href="http://" title="Перейти по ссылке">
