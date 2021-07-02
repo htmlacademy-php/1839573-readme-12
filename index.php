@@ -3,6 +3,29 @@ $is_auth = rand(0, 1);
 
 $user_name = 'Nikita'; // укажите здесь ваше имя
 
+function cropText($text, $length = 300) {
+    $sum = 0;
+    $words = explode(' ', $text);
+    $out = [];
+
+    foreach ($words as $words) {
+        if ($sum < $length) {
+            $sum += strlen($words);
+            $out[] = $words;
+            
+        } else {
+            array_pop($out);
+            $result = implode(' ', $out) . '&hellip;';
+            
+            return "<p>$result</p> 
+                    <a class='post-text__more-link' href='#'>Читать далее</a>";
+        }   
+    }
+
+    $result = implode(' ', $out);
+    return "<p>$result</p>";
+}
+
 $posts = [
     [
         'title' => 'Цитата',
@@ -40,7 +63,7 @@ $posts = [
         'avatar' => 'userpic.jpg',
     ],
 
-]
+];
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -260,7 +283,9 @@ $posts = [
                         </blockquote>
 
                     <?php elseif($value['type'] === 'post-text'): ?>
-                        <p><?=htmlspecialchars($value['content']) ?></p>
+                        <?=cropText(htmlspecialchars($value['content'])) ?>
+
+                        
 
                     <?php elseif($value['type'] === 'post-photo'): ?>
                         <div class="post-photo__image-wrapper">
