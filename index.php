@@ -3,27 +3,27 @@ $is_auth = rand(0, 1);
 
 $user_name = 'Nikita'; // укажите здесь ваше имя
 
-function cropText($text, $length = 300) {
-    $sum = 0;
+function cropText(string $text, int $length = 300): array {
+    if (strlen($text) <= $length) {
+        return [$text, false];
+    }
+
+    $sumSymbols = 0;
     $words = explode(' ', $text);
     $out = [];
 
-    foreach ($words as $words) {
-        if ($sum < $length) {
-            $sum += strlen($words);
-            $out[] = $words;
+    foreach ($words as $word) {
+        if ($sumSymbols <= $length) {
+            $sumSymbols += strlen($word);
+            $out[] = $word;
             
         } else {
             array_pop($out);
             $result = implode(' ', $out) . '&hellip;';
             
-            return "<p>$result</p> 
-                    <a class='post-text__more-link' href='#'>Читать далее</a>";
+            return [$result, true];
         }   
     }
-
-    $result = implode(' ', $out);
-    return "<p>$result</p>";
 }
 
 $posts = [
@@ -283,9 +283,12 @@ $posts = [
                         </blockquote>
 
                     <?php elseif($value['type'] === 'post-text'): ?>
-                        <?=cropText(htmlspecialchars($value['content'])) ?>
+                        <?php [$text, $isCropped] = cropText(htmlspecialchars($value['content'])) ?>
+                            <p><?=$text ?></p>
 
-                        
+                        <?php if ($isCropped): ?>
+                            <a class="post-text__more-link" href="#">Читать далее</a>
+                        <?php endif; ?>
 
                     <?php elseif($value['type'] === 'post-photo'): ?>
                         <div class="post-photo__image-wrapper">
