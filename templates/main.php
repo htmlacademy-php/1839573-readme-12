@@ -85,38 +85,38 @@
         </div>
         <div class="popular__posts">
 
-            <?php foreach ($posts as $value): ?>
-                <article class="popular__post post <?=$value['type'] ?>">
+            <?php foreach ($posts as $post): ?>
+                <article class="popular__post post <?=$post['type'] ?>">
                     <header class="post__header">
-                        <h2><?=htmlspecialchars($value['title']) ?></h2>
+                        <h2><?=htmlspecialchars($post['title']) ?></h2>
                     </header>
                     <div class="post__main">
 
-                    <?php if($value['type'] === 'post-quote'): ?>
+                    <?php if($post['type'] === 'post-quote'): ?>
                         <blockquote>
                             <p>
-                                <?=htmlspecialchars($value['content']) ?>
+                                <?=htmlspecialchars($post['content']) ?>
                             </p>
                             <cite>Неизвестный Автор</cite>
                         </blockquote>
 
-                    <?php elseif($value['type'] === 'post-text'): ?>
-                        <?php [$text, $isCropped] = cropText(htmlspecialchars($value['content'])) ?>
+                    <?php elseif($post['type'] === 'post-text'): ?>
+                        <?php [$text, $isCropped] = cropText(htmlspecialchars($post['content'])) ?>
                             <p><?=$text ?></p>
 
                         <?php if ($isCropped): ?>
                             <a class="post-text__more-link" href="#">Читать далее</a>
                         <?php endif; ?>
 
-                    <?php elseif($value['type'] === 'post-photo'): ?>
+                    <?php elseif($post['type'] === 'post-photo'): ?>
                         <div class="post-photo__image-wrapper">
-                            <img src="img/<?=htmlspecialchars($value['content']) ?>" alt="Фото от пользователя" width="360" height="240">
+                            <img src="img/<?=htmlspecialchars($post['content']) ?>" alt="Фото от пользователя" width="360" height="240">
                         </div>
 
-                    <?php elseif($value['type'] === 'post-video'): ?>
+                    <?php elseif($post['type'] === 'post-video'): ?>
                         <div class="post-video__block">
                             <div class="post-video__preview">
-                                <?=embed_youtube_cover(htmlspecialchars($value['content'])); ?>
+                                <?=embed_youtube_cover(htmlspecialchars($post['content'])); ?>
                                 <img src="img/coast-medium.jpg" alt="Превью к видео" width="360" height="188">
                             </div>
                             <a href="post-details.html" class="post-video__play-big button">
@@ -129,16 +129,16 @@
 
                     <?php else: ?>
                         <div class="post-link__wrapper">
-                            <a class="post-link__external" href="http://<?=htmlspecialchars($value['content']) ?>" title="Перейти по ссылке">
+                            <a class="post-link__external" href="http://<?=htmlspecialchars($post['content']) ?>" title="Перейти по ссылке">
                                 <div class="post-link__info-wrapper">
                                     <div class="post-link__icon-wrapper">
                                         <img src="https://www.google.com/s2/favicons?domain=vitadental.ru" alt="Иконка">
                                     </div>
                                     <div class="post-link__info">
-                                        <h3><?=htmlspecialchars($value['title']) ?></h3>
+                                        <h3><?=htmlspecialchars($post['title']) ?></h3>
                                     </div>
                                 </div>
-                                <span><?=htmlspecialchars($value['content']) ?></span>
+                                <span><?=htmlspecialchars($post['content']) ?></span>
                             </a>
                         </div>
 
@@ -149,11 +149,14 @@
                         <div class="post__author">
                             <a class="post__author-link" href="#" title="Автор">
                                 <div class="post__avatar-wrapper">
-                                    <img class="post__author-avatar" src="img/<?=$value['avatar'] ?>" alt="Аватар пользователя">
+                                    <img class="post__author-avatar" src="img/<?=$post['avatar'] ?>" alt="Аватар пользователя">
                                 </div>
                                 <div class="post__info">
-                                    <b class="post__author-name"><?=$value['author'] ?></b>
-                                    <time class="post__time" datetime="">дата</time>
+                                    <b class="post__author-name"><?=$post['author'] ?></b>
+
+                                    <?php $post_date = postDate($post); ?>
+                                    
+                                    <time class="post__time" title="<?= date('d.m.Y H:i', strtotime($post_date['date'])) ?>" datetime="<?= $post_date['date'] ?>"><?= $post_date['relative_time'] ?> назад</time>
                                 </div>
                             </a>
                         </div>

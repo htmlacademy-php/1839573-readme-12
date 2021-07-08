@@ -28,6 +28,32 @@ function cropText(string $text, int $length = 300): array {
     }
 }
 
+function postDate(array $post):array {
+    $date = generate_random_date($post);
+    $unix_date = strtotime($date);
+    $current_unix_date = date_format(date_create("now"), 'U');
+    $date_dif = $current_unix_date - $unix_date;
+
+    if ($date_dif < 60 * 60) {
+        $current_time = round($date_dif / 60);
+        $relative_time =  "{$current_time} " . get_noun_plural_form($current_time, 'минуту', 'минуты', 'минут');
+    } elseif ($date_dif >= 60 * 60 && $date_dif < 60 * 60 * 24) {
+        $current_time = round($date_dif / (60 * 60));
+        $relative_time =  "{$current_time} " . get_noun_plural_form($current_time, 'час', 'часа', 'часов');
+    } elseif ($date_dif >= 60 * 60 * 24 && $date_dif < 60 * 60 * 24 * 7) {
+        $current_time = round($date_dif / (60 * 60 * 24));
+        $relative_time =  "{$current_time} " . get_noun_plural_form($current_time, 'день', 'дня', 'дней');
+    } elseif ($date_dif >= 60 * 60 * 24 * 7 && $date_dif < 60 * 60 * 24 * 7 * 5) {
+        $current_time = round($date_dif / (60 * 60 * 24 * 7));
+        $relative_time =  "{$current_time} " . get_noun_plural_form($current_time, 'неделю', 'недели', 'недель');
+    } else {
+        $current_time = round($date_dif / (60 * 60 * 24 * 7 * 5));
+        $relative_time =  "{$current_time} " . get_noun_plural_form($current_time, 'месяц', 'месяца', 'месяцев');
+    }
+
+    return ['relative_time' => $relative_time, 'date' => $date];
+}
+
 $posts = [
     [
         'title' => 'Цитата',
