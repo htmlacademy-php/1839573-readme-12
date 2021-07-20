@@ -67,4 +67,3 @@ CREATE TABLE IF NOT EXISTS content_type (
     title CHAR(64) UNIQUE,
     class_name CHAR(64) UNIQUE
 );
-
