@@ -1,0 +1,70 @@
+DROP DATABASE IF EXISTS readme;
+CREATE DATABASE IF NOT EXISTS readme
+DEFAULT CHARACTER SET utf8
+DEFAULT COLLATE utf8_general_ci;
+
+USE readme;
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    email VARCHAR(128) NOT NULL UNIQUE,
+    login CHAR(128) NOT NULL UNIQUE, 
+    password CHAR(255) NOT NULL,
+    avatar TEXT
+);
+
+CREATE TABLE IF NOT EXISTS posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    title CHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    author CHAR(255),
+    image TEXT,
+    video TEXT,
+    link TEXT,
+    show_count INT,
+    author_id INT NOT NULL,
+    content_type TEXT NOT NULL,
+    hashtags_id TEXT
+);
+
+CREATE TABLE IF NOT EXISTS comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    content TEXT NOT NULL,
+    user_id INT NOT NULL,
+    post_id INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    post_id INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS subscribes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    subscribe_id INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    content TEXT NOT NULL,
+    author_id INT NOT NULL,
+    recipient_id INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS hashtags (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    hashtag_name CHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS content_type (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title CHAR(64) UNIQUE,
+    class_name CHAR(64) UNIQUE
+);
+
