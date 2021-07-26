@@ -40,12 +40,12 @@ CREATE TABLE IF NOT EXISTS posts (
     show_count INT,
     author_id INT NOT NULL,
     content_type TEXT NOT NULL,
-    hashtags_id TEXT,
+    hashtags_id INT,
     user_id INT NOT NULL,
     content_type_id INT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_posts_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_posts_content_type FOREIGN KEY (content_type_id) REFERENCES content_types (id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT fk_posts_content_type FOREIGN KEY (content_type_id) REFERENCES content_types (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_posts_hashtags_id FOREIGN KEY (hashtags_id) REFERENCES hashtags (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
